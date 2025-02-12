@@ -17,7 +17,6 @@ import (
 	"net/netip"
 	"os"
 	"os/signal"
-	"path/filepath"
 	"slices"
 	"strings"
 	"syscall"
@@ -1178,26 +1177,26 @@ func (s *Server) GenerateRoutes() http.Handler {
 }
 
 func Serve(ln net.Listener) error {
-	level := slog.LevelInfo
-	if envconfig.Debug() {
-		level = slog.LevelDebug
-	}
+	// level := slog.LevelInfo
+	// if envconfig.Debug() {
+	// 	level = slog.LevelDebug
+	// }
 
-	slog.Info("server config", "env", envconfig.Values())
-	handler := slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{
-		Level:     level,
-		AddSource: true,
-		ReplaceAttr: func(_ []string, attr slog.Attr) slog.Attr {
-			if attr.Key == slog.SourceKey {
-				source := attr.Value.Any().(*slog.Source)
-				source.File = filepath.Base(source.File)
-			}
+	// slog.Info("server config", "env", envconfig.Values())
+	// handler := slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{
+	// 	Level:     level,
+	// 	AddSource: true,
+	// 	ReplaceAttr: func(_ []string, attr slog.Attr) slog.Attr {
+	// 		if attr.Key == slog.SourceKey {
+	// 			source := attr.Value.Any().(*slog.Source)
+	// 			source.File = filepath.Base(source.File)
+	// 		}
 
-			return attr
-		},
-	})
+	// 		return attr
+	// 	},
+	// })
 
-	slog.SetDefault(slog.New(handler))
+	// slog.SetDefault(slog.New(handler))
 
 	blobsDir, err := GetBlobsPath("")
 	if err != nil {

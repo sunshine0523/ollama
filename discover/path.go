@@ -32,6 +32,8 @@ var LibOllamaPath string = func() string {
 		libPath = filepath.Join(filepath.Dir(exe), "..", "lib", "ollama")
 	case "darwin":
 		libPath = filepath.Dir(exe)
+	case "android":
+		libPath = filepath.Dir(exe)
 	}
 
 	cwd, err := os.Getwd()

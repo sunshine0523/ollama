@@ -50,7 +50,7 @@ import (
 	_ "github.com/ollama/ollama/llama/llama.cpp/common"
 	_ "github.com/ollama/ollama/llama/llama.cpp/examples/llava"
 	_ "github.com/ollama/ollama/llama/llama.cpp/src"
-	"github.com/ollama/ollama/ml/backend/ggml/ggml/src"
+	ggml "github.com/ollama/ollama/ml/backend/ggml/ggml/src"
 )
 
 func BackendInit() {
@@ -60,14 +60,15 @@ func BackendInit() {
 
 func PrintSystemInfo() string {
 	var compiler string
-	switch C.get_compiler() {
-	case C.COMP_UNKNOWN:
-		compiler = "cgo(unknown_compiler)"
-	case C.COMP_GCC:
-		compiler = "cgo(gcc)"
-	case C.COMP_CLANG:
-		compiler = "cgo(clang)"
-	}
+	// switch C.get_compiler() {
+	// case C.COMP_UNKNOWN:
+	// 	compiler = "cgo(unknown_compiler)"
+	// case C.COMP_GCC:
+	// 	compiler = "cgo(gcc)"
+	// case C.COMP_CLANG:
+	// 	compiler = "cgo(clang)"
+	// }
+	compiler = "cgo(clang)"
 	return C.GoString(C.llama_print_system_info()) + compiler
 }
 

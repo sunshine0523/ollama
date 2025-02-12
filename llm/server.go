@@ -322,7 +322,6 @@ func NewLlamaServer(gpus discover.GpuInfoList, model string, ggml *GGML, adapter
 		libraryPaths = append(libraryPaths, discover.LibOllamaPath)
 
 		exe, err := os.Executable()
-		slog.Info("kindbrave", "exe", exe)
 		if err != nil {
 			return nil, fmt.Errorf("unable to lookup executable path: %w", err)
 		}
@@ -347,15 +346,9 @@ func NewLlamaServer(gpus discover.GpuInfoList, model string, ggml *GGML, adapter
 			done:        make(chan error, 1),
 		}
 
-		logFile, err := os.OpenFile("/sdcard/runner.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-		if err != nil {
-			slog.Error("Failed to open log file", "error", err)
-		}
-		defer logFile.Close()
-
 		s.cmd.Env = os.Environ()
-		s.cmd.Stdout = logFile
-		s.cmd.Stderr = logFile
+		s.cmd.Stdout = os.Stdout
+		s.cmd.Stderr = s.status
 		s.cmd.SysProcAttr = LlamaServerSysProcAttr
 
 		envWorkarounds := [][2]string{}
